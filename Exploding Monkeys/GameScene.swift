@@ -13,6 +13,7 @@ class GameScene: SKScene {
     // MARK: - Stored Properties
     
     var buildings = Array<BuildingNode>()
+    weak var viewController: GameViewController!
     
     // MARK: - Methods Override
     
@@ -45,5 +46,9 @@ class GameScene: SKScene {
             
             self.buildings.append(building)
         }
+    }
+    
+    func launch(angle angle: Int, velocity: Int) {
+        
     }
 }

@@ -10,9 +10,64 @@ import UIKit
 import SpriteKit
 
 class GameViewController: UIViewController {
+    
+    // MARK: - Stored Properties
+    
+    var currentGame: GameScene!
+    
+    // MARK: - IBOutlet Properties
+    
+    @IBOutlet weak var angleSlider: UISlider!
+    @IBOutlet weak var angleLabel: UILabel!
+    @IBOutlet weak var velocitySlider: UISlider!
+    @IBOutlet weak var velocityLabel: UILabel!
+    @IBOutlet weak var launchButton: UIButton!
+    @IBOutlet weak var playerNumber: UILabel!
+    
+    // MARK: - IBAction Properties
+    
+    @IBAction func changeAngleActionSlider(sender: UISlider) {
+        self.angleLabel.text = "Angle: \(Int(self.angleSlider.value))°"
+    }
+    
+    @IBAction func changeVelocityActionSlider(sender: UISlider) {
+        self.velocityLabel.text = "Velocity: \(Int(self.velocitySlider.value))"
+    }
+    
+    @IBAction func launchProjectileActionButton(sender: UIButton) {
+        self.angleSlider.hidden = true
+        self.angleLabel.hidden = true
+        
+        
+        self.velocitySlider.hidden = true
+        self.velocityLabel.hidden = true
+        
+        self.launchButton.hidden = true
+        
+        self.currentGame.launch(angle: Int(self.angleSlider.value), velocity: Int(velocitySlider.value))
+    }
+    
+    // MARK: - Local Methods
+    
+    func activatePlayerNumber(number: Int) {
+        self.playerNumber.text = number == 1 ? "<<< PLAYER ONE" : "PLAYER TWO >>>"
+        
+        self.angleSlider.hidden = false
+        self.angleLabel.hidden = false
+        
+        self.velocitySlider.hidden = false
+        self.velocityLabel.hidden = false
+        
+        self.launchButton.hidden = false
+    }
+    
+    // MARK: - Methods Override
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.changeAngleActionSlider(self.angleSlider)
+        self.changeVelocityActionSlider(self.velocitySlider)
 
         if let scene = GameScene(fileNamed:"GameScene") {
             // Configure the view.
@@ -27,6 +82,9 @@ class GameViewController: UIViewController {
             scene.scaleMode = .AspectFill
             
             skView.presentScene(scene)
+            
+            self.currentGame = scene
+            scene.viewController = self
         }
     }
 
