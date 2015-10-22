@@ -78,4 +78,27 @@ class BuildingNode: SKSpriteNode {
         return buildingImage
     }
     
+    func hitAtPoint(point: CGPoint) {
+        // 1. Figure out where the building was hit. SK's position element from the center, CG from bottom left.
+        let convertedPoint = CGPoint(x: point.x + self.size.width / 2, y: abs(point.y - (self.size.height / 2)))
+        
+        // 2. Create a new Core Graphics context the size of our current sprite
+        UIGraphicsBeginImageContextWithOptions(self.size, false, 0)
+        let graphicsCurrentContext = UIGraphicsGetCurrentContext()
+        
+        self.currentImage.drawAtPoint(CGPoint(x: 0, y: 0))
+        
+        CGContextAddEllipseInRect(graphicsCurrentContext, CGRect(x: convertedPoint.x - 32, y: convertedPoint.y - 32, width: 64, height: 64))
+        CGContextSetBlendMode(graphicsCurrentContext, CGBlendMode.Clear)
+        CGContextDrawPath(graphicsCurrentContext, CGPathDrawingMode.Fill)
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        self.texture = SKTexture(image: image)
+        self.currentImage = image
+        
+        self.configurePhysics()
+    }
+    
 }
