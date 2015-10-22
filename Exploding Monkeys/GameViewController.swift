@@ -44,7 +44,7 @@ class GameViewController: UIViewController {
         
         self.launchButton.hidden = true
         
-        self.currentGame.launch(angle: Int(self.angleSlider.value), velocity: Int(velocitySlider.value))
+        self.currentGame.launchProjectile(angle: Int(self.angleSlider.value), velocity: Int(velocitySlider.value))
     }
     
     // MARK: - Local Methods
